@@ -9,8 +9,8 @@ $factory->define(Product::class, function (Faker $faker) {
     return [
         //
         'name'  => $faker->sentence(2),
-        'short' => $faker->text(1449),
-        'body'  => $faker->text(1449)
+        'short' => $faker->text(149),
+        'body'  => $faker->text(200)
 
 
     ];

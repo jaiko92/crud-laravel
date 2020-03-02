@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Product;
 
 class ProductController extends Controller
 {
@@ -13,7 +14,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $data=Product::orderBy('id', 'Desc')->paginate();
+        return view('products.index',compact('data'));
     }
 
     /**
@@ -23,7 +25,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('products.create');
     }
 
     /**
@@ -46,6 +48,8 @@ class ProductController extends Controller
     public function show($id)
     {
         //
+        $product=Product::find($id);
+        return view('products.show', compact('product'));
     }
 
     /**
@@ -57,7 +61,10 @@ class ProductController extends Controller
     public function edit($id)
     {
         //
+        $product=Product::find($id);
+        return view('products.edit', compact('product'));
     }
+    
 
     /**
      * Update the specified resource in storage.
@@ -80,5 +87,9 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
+        $product=Product::find($id);
+        $product->delete();
+        
+        return back()->with('info', 'El producto ha sido elminido');
     }
 }
