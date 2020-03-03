@@ -6,9 +6,10 @@
          Crear productos
             <a href="{{ route('products.index') }}" class="btn btn-dark align-right" >listado de productos</a>
         </h2>
-        @include('products.fragment.info')
-        <form action="{{ route('products.store')}}" method="post">
+        @include('products.fragment.error')
+        <form action="{{ route('products.store')}}" method="POST">
             @csrf
+          
         @include('products.fragment.form')
         <button type="submit" class="btn btn-primary">Enviar</button>
         </form>

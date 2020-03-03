@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Product;
-
+use Illuminate\Http\Request;
+use App\Http\Requests\ProductRequest;
 class ProductController extends Controller
 {
     /**
@@ -14,8 +14,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $data=Product::orderBy('id', 'Desc')->paginate();
-        return view('products.index',compact('data'));
+        $data = Product::orderBy('id', 'Desc')->paginate();
+        return view('products.index', compact('data'));
     }
 
     /**
@@ -34,9 +34,16 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
         //
+        $newproduct = Product::create();
+
+        $newproduct->name = $request->name;
+        $newproduct->short = $request->short;
+        $newproduct->body = $request->body;
+        $newproduct->save();
+        return redirect()->route('products.index')->with('info', 'creado su producto');
     }
 
     /**
@@ -48,7 +55,7 @@ class ProductController extends Controller
     public function show($id)
     {
         //
-        $product=Product::find($id);
+        $product = Product::find($id);
         return view('products.show', compact('product'));
     }
 
@@ -61,10 +68,9 @@ class ProductController extends Controller
     public function edit($id)
     {
         //
-        $product=Product::find($id);
+        $product = Product::find($id);
         return view('products.edit', compact('product'));
     }
-    
 
     /**
      * Update the specified resource in storage.
@@ -73,9 +79,15 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProductRequest $request, $id)
     {
         //
+        $product = Product::findOrFail($id);
+        $product->name  = $request->name;
+        $product->short = $request->short;
+        $product->body  = $request->body;
+        $product->save();
+        return redirect()->route('products.index')-> with('info', 'producto  actulizado');
     }
 
     /**
@@ -87,9 +99,9 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
-        $product=Product::find($id);
+        $product = Product::find($id);
         $product->delete();
-        
+
         return back()->with('info', 'El producto ha sido elminido');
     }
 }

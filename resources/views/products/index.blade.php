@@ -30,7 +30,7 @@
                    <td>
                    <form action="{{ route('products.destroy', $item->id) }}" method="post">
                     @csrf
-                    <input type="hidden" name="_method" value="DELETE">
+                    @method('DELETE')
                     <button class="btn btn-link">Borar</button>
                   </form>
                     
